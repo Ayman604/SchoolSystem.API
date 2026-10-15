@@ -11,4 +11,9 @@
     <ProjectReference Include="..\School.Services.Abstraction\School.Services.Abstraction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MappingProfiles\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

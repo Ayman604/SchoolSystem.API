@@ -15,4 +15,8 @@
     <ProjectReference Include="..\School.Presentation\School.Presentation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>
