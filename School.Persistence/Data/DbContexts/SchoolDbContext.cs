@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Domain.Entities.ContentAndMedia;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace School.Persistence.Data.DbContexts
 {
@@ -16,7 +11,7 @@ namespace School.Persistence.Data.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-           // modelBuilder.ApplyConfigurationsFromAssembly(typeof(SchoolDbContext).Assembly);
+            // modelBuilder.ApplyConfigurationsFromAssembly(typeof(SchoolDbContext).Assembly);
         }
         #region DbSets 
         public DbSet<Post> Posts { get; set; }
