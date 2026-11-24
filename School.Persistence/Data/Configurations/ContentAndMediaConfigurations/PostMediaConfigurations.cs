@@ -12,34 +12,17 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
 
             builder.HasKey(x => x.MediaId);
 
-            #region Properties Configurations
-            builder.Property(x => x.MediaRole)
-                .IsRequired();
-
-            builder.Property(x => x.DisplayOrder)
-                .HasDefaultValue(0);
-            #endregion
-
-            #region Relationships Configurations
+            builder.HasOne<Post>()
+                  .WithMany(P => P.MediaAttachments)
+                .HasForeignKey(x => x.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.HasOne(PM => PM.RelatedMedia)
-                .WithOne(M => M.OwnerPost)
-                .HasForeignKey<PostMedia>(PM => PM.MediaId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(pm => pm.Media)
+                .WithOne(m => m.PostAttachment)
+                .HasForeignKey<PostMedia>(x => x.MediaId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-
-            builder.HasOne(PM => PM.RelatedPost)
-                .WithMany(P => P.MediaAttachments!)
-                .HasForeignKey(PM => PM.PostId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
-
-
-            #endregion
         }
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using School.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace School.Domain.Entities.ContentAndMedia
 {
@@ -7,15 +6,14 @@ namespace School.Domain.Entities.ContentAndMedia
     {
 
         public int PostId { get; set; }
+        [Key]
         public int MediaId { get; set; }
-        public MediaRole MediaRole { get; set; }
 
-        [Range(0, int.MaxValue)]
-        public int DisplayOrder { get; set; }
+        // Navigation Properties
+        // public Post Post { get; set; } = default!;
 
-        #region Navigation properties
-        public Post RelatedPost { get; set; } = default!;
-        public Media RelatedMedia { get; set; } = default!;
-        #endregion
+        public Media Media { get; set; } = default!;
+
+
     }
 }

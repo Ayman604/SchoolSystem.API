@@ -17,11 +17,8 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
             builder.Property(m => m.FilePath)
                 .IsRequired()
                 .HasMaxLength(500);
-            builder.Property(m => m.MimeType)
-                .IsRequired()
-                .HasMaxLength(50);
-            builder.Property(m => m.FileSizeBytes)
-                .IsRequired();
+
+
             builder.Property(m => m.AltText)
                 .IsRequired()
                 .HasMaxLength(500);
@@ -32,18 +29,18 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
             builder.Property(m => m.IsDeleted)
                 .IsRequired()
                 .HasDefaultValue(false);
-            builder.Property(m => m.DeletedAtUtc)
+            builder.Property(m => m.CreatedAtUtc)
                 .IsRequired()
                 .HasDefaultValueSql("GETUTCDATE()");
 
 
             #region Indexes 
-            //builder.HasIndex(x => x.UploadedByUserId)
-            //  .HasDatabaseName("IX_Media_UploadedBy");
-            builder.HasIndex(x => new { x.Type, x.Category })
-                .HasDatabaseName("IX_Media_TypeCategory");
+
+            builder.HasIndex(x => new { x.Category, x.Type })
+                .HasDatabaseName("IX_Media_CategoryType");
 
             builder.HasIndex(x => x.CreatedAtUtc)
+                .IsDescending()
                 .HasDatabaseName("IX_Media_CreatedAt");
 
             #endregion

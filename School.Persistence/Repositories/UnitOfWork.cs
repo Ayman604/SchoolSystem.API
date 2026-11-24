@@ -1,11 +1,6 @@
 ﻿using School.Domain;
 using School.Domain.Contracts;
 using School.Persistence.Data.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace School.Persistence.Repositories
 {
@@ -18,7 +13,8 @@ namespace School.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : BaseEntity<TKey>
+        public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
+            where TEntity : BaseEntity<TKey>
         {
             var entityType = typeof(TEntity);
             if (_repository.TryGetValue(entityType, out var repository))
@@ -29,7 +25,7 @@ namespace School.Persistence.Repositories
             return newRepo;
         }
 
-        public async Task<int> SAveChangesAsync(CancellationToken cancellationToken = default)
-        => await _dbContext.SaveChangesAsync(cancellationToken);
+        public async Task<int> SAveChangesAsync()
+        => await _dbContext.SaveChangesAsync();
     }
 }

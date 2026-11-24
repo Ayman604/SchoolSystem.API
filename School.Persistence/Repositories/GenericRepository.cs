@@ -2,15 +2,12 @@
 using School.Domain;
 using School.Domain.Contracts;
 using School.Persistence.Data.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace School.Persistence.Repositories
 {
-    public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
+    public class GenericRepository<TEntity, TKey>
+        : IGenericRepository<TEntity, TKey>
+        where TEntity : BaseEntity<TKey>
     {
         private readonly SchoolDbContext _dbContext;
 
@@ -35,5 +32,33 @@ namespace School.Persistence.Repositories
 
         public void Update(TEntity entity)
         => _dbContext.Set<TEntity>().Update(entity);
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(
+    ISpecifications<TEntity, TKey> specifications)
+        {
+            var query = SpecificationEvaluator.CreateQuery(
+                _dbContext.Set<TEntity>(),
+                specifications);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<TEntity?> GetByIdAsync(
+            ISpecifications<TEntity, TKey> specifications)
+        {
+            var query = SpecificationEvaluator.CreateQuery(
+                _dbContext.Set<TEntity>(),
+                specifications);
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<int> CountAsync(
+            ISpecifications<TEntity, TKey> specifications)
+        {
+            return await SpecificationEvaluator
+                .CreateQuery(_dbContext.Set<TEntity>(), specifications)
+                .CountAsync();
+        }
     }
 }

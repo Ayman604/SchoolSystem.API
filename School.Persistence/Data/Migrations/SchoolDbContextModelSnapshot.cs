@@ -39,10 +39,6 @@ namespace School.Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAtUtc")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -57,32 +53,22 @@ namespace School.Persistence.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<long>("FileSizeBytes")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("MimeType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAtUtc")
+                        .IsDescending()
                         .HasDatabaseName("IX_Media_CreatedAt");
 
-                    b.HasIndex("Type", "Category")
-                        .HasDatabaseName("IX_Media_TypeCategory");
+                    b.HasIndex("Category", "Type")
+                        .HasDatabaseName("IX_Media_CategoryType");
 
                     b.ToTable("Media", (string)null);
                 });
@@ -104,35 +90,10 @@ namespace School.Persistence.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<DateTime?>("DeletedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<string>("Excerpt")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("PublishedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -142,23 +103,13 @@ namespace School.Persistence.Data.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<DateTime>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisplayOrder")
-                        .HasDatabaseName("IX_Post_DisplayOrder");
-
-                    b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasDatabaseName("UX_Post_Slug");
-
                     b.HasIndex("Type")
                         .HasDatabaseName("IX_Post_Type");
-
-                    b.HasIndex("IsPublished", "CreatedAtUtc")
-                        .HasDatabaseName("IX_Post_PublishedCreated");
 
                     b.ToTable("Posts", (string)null);
                 });
@@ -166,14 +117,6 @@ namespace School.Persistence.Data.Migrations
             modelBuilder.Entity("School.Domain.Entities.ContentAndMedia.PostMedia", b =>
                 {
                     b.Property<int>("MediaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DisplayOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("MediaRole")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -188,26 +131,17 @@ namespace School.Persistence.Data.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.ContentAndMedia.PostMedia", b =>
                 {
-                    b.HasOne("School.Domain.Entities.ContentAndMedia.Media", "RelatedMedia")
-                        .WithOne("OwnerPost")
+                    b.HasOne("School.Domain.Entities.ContentAndMedia.Media", null)
+                        .WithOne()
                         .HasForeignKey("School.Domain.Entities.ContentAndMedia.PostMedia", "MediaId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("School.Domain.Entities.ContentAndMedia.Post", "RelatedPost")
+                    b.HasOne("School.Domain.Entities.ContentAndMedia.Post", null)
                         .WithMany("MediaAttachments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RelatedMedia");
-
-                    b.Navigation("RelatedPost");
-                });
-
-            modelBuilder.Entity("School.Domain.Entities.ContentAndMedia.Media", b =>
-                {
-                    b.Navigation("OwnerPost");
                 });
 
             modelBuilder.Entity("School.Domain.Entities.ContentAndMedia.Post", b =>

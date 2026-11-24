@@ -18,28 +18,14 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
                 .IsRequired()
                 .HasMaxLength(250);
 
-            builder.Property(x => x.Slug)
-                .IsRequired()
-                .HasMaxLength(300);
-
             builder.Property(x => x.Content)
                 .IsRequired();
-
-            builder.Property(x => x.Excerpt)
-                .HasMaxLength(500);
 
             builder.Property(x => x.Type)
                 .IsRequired();
 
-            builder.Property(x => x.DisplayOrder)
-                .IsRequired()
-                .HasDefaultValue(0);
-
             builder.Property(x => x.IsPublished)
-                .HasDefaultValue(false);
-
-            builder.Property(x => x.IsDeleted)
-                .HasDefaultValue(false);
+                .HasDefaultValue(true);
 
             builder.Property(x => x.CreatedAtUtc)
                 .IsRequired()
@@ -47,18 +33,8 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
             #endregion
 
             #region Indexes 
-            builder.HasIndex(x => x.Slug)
-                    .IsUnique()
-                    .HasDatabaseName("UX_Post_Slug");
-
-            builder.HasIndex(x => new { x.IsPublished, x.CreatedAtUtc })
-                .HasDatabaseName("IX_Post_PublishedCreated");
-
             builder.HasIndex(x => x.Type)
-                .HasDatabaseName("IX_Post_Type");
-
-            builder.HasIndex(x => x.DisplayOrder)
-                .HasDatabaseName("IX_Post_DisplayOrder");
+                   .HasDatabaseName("IX_Post_Type");
             #endregion
         }
     }
