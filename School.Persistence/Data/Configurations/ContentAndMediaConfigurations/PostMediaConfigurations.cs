@@ -19,7 +19,7 @@ namespace School.Persistence.Data.Configurations.ContentAndMediaConfigurations
 
 
             builder.HasOne(pm => pm.Media)
-                .WithOne(m => m.PostAttachment)
+                .WithOne()
                 .HasForeignKey<PostMedia>(x => x.MediaId)
                 .OnDelete(DeleteBehavior.Cascade);
 
