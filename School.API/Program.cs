@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using School.Domain.Contracts;
+using School.Persistence.Data.DataSeed;
 using School.Persistence.Data.DbContexts;
 using School.Persistence.Repositories;
 using School.Services.Abstraction;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 #endregion
 #region Data initializer
-
+builder.Services.AddKeyedScoped<IDataInitializer, DataInitializer>("Default");
 #endregion
 #region Repositories & Unit Of Work 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

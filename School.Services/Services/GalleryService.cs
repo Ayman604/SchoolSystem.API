@@ -1,4 +1,5 @@
-﻿using School.Domain.Contracts;
+﻿using Microsoft.Extensions.Configuration;
+using School.Domain.Contracts;
 using School.Domain.Entities.ContentAndMedia;
 using School.Domain.Enums;
 using School.Services.Abstraction;
@@ -12,9 +13,11 @@ namespace School.Services.Services
     public class GalleryService : IGalleryService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GalleryService(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _configuration;
+        public GalleryService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<Result<GalleryMediaDTO>> AddToGalleryAsync(CreateGalleryMediaDTO dto)
@@ -99,8 +102,19 @@ namespace School.Services.Services
             return Result<GalleryMediaDTO>.Ok(MapToDto(media));
         }
 
-        private static GalleryMediaDTO MapToDto(Media media)
+        private GalleryMediaDTO MapToDto(Media media)
         {
+            var baseUrl = _configuration.GetSection("URLs")["BaseURL"];
+            var fullPath = media.FilePath;
+            if (!string.IsNullOrEmpty(media.FilePath))
+            {
+                if (!media.FilePath.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+                    && !media.FilePath.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    fullPath = $"{baseUrl?.TrimEnd('/')}/{media.FilePath.TrimStart('/')}";
+                }
+
+            }
             return new GalleryMediaDTO
             {
                 Id = media.Id,
