@@ -10,7 +10,7 @@ namespace School.Domain.Entities.ContentAndMedia
         public MediaType Type { get; set; }
         public MediaCategory Category { get; set; }
         public bool IsDeleted { get; set; }
-        public PostMedia? PostAttachment { get; set; }
+
 
     }
 
