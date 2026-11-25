@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using School.API.Extensions;
 using School.Domain.Contracts;
 using School.Persistence.Data.DataSeed;
 using School.Persistence.Data.DbContexts;
@@ -15,6 +16,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevelopmentPolicy",
+        builder =>
+        {
+            builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+        });
+});
 #endregion
 #region DataBase & DbContexts
 builder.Services.AddDbContext<SchoolDbContext>(options =>
@@ -33,7 +42,11 @@ builder.Services.AddScoped<IOurPrideService, OurPrideService>();
 #endregion
 #endregion
 var app = builder.Build();
+#region Web Application Register 
+await app.MigrateDataBaseAsync();
 
+await app.SeedDataAsync();
+#endregion
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -42,7 +55,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-
+app.UseCors("DevelopmentPolicy");
 app.UseAuthorization();
 
 app.MapControllers();

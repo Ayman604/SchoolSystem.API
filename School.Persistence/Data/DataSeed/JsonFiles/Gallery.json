@@ -1,0 +1,82 @@
+[
+  {
+    "fileName": "image1.jpg",
+    "filePath": "Gallery/Images/image1.jpg",
+    "altText": "Gallery image 1",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image2.jpg",
+    "filePath": "Gallery/Images/image2.jpg",
+    "altText": "Gallery image 2",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image3.jpg",
+    "filePath": "Gallery/Images/image3.jpg",
+    "altText": "Gallery image 3",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image4.jpg",
+    "filePath": "Gallery/Images/image4.jpg",
+    "altText": "Gallery image 4",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image5.jpg",
+    "filePath": "Gallery/Images/image5.jpg",
+    "altText": "Gallery image 5",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image6.jpg",
+    "filePath": "Gallery/Images/image6.jpg",
+    "altText": "Gallery image 6",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image7.jpg",
+    "filePath": "Gallery/Images/image7.jpg",
+    "altText": "Gallery image 7",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image8.jpg",
+    "filePath": "Gallery/Images/image8.jpg",
+    "altText": "Gallery image 8",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image9.jpg",
+    "filePath": "Gallery/Images/image9.jpg",
+    "altText": "Gallery image 9",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  },
+  {
+    "fileName": "image10.jpg",
+    "filePath": "Gallery/Images/image10.jpg",
+    "altText": "Gallery image 10",
+    "type": 1,
+    "category": 2,
+    "isDeleted": false
+  }
+]
