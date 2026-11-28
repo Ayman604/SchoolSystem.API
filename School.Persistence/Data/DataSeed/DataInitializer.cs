@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Domain;
 using School.Domain.Contracts;
+using School.Domain.Entities.ContentAndMedia;
 using School.Persistence.Data.DbContexts;
 using System.Text.Json;
 
@@ -14,9 +15,21 @@ namespace School.Persistence.Data.DataSeed
         {
             _context = context;
         }
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var HasMedia = await _context.Media.AnyAsync();
+                var HasPosts = await _context.Posts.AnyAsync();
+                var HasPostMedia = await _context.PostMedia.AnyAsync();
+                if (HasMedia && HasPosts && HasPostMedia) return; // Data already exists, no need to seed
+                if (!HasMedia) await SeedDataFromJson<Media, int>("Gallery.json", _context.Media);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while initializing the database: {ex.Message}");
+            }
         }
 
         private async Task SeedDataFromJson<T, TKey>(string fileNmae, DbSet<T> dbset) where T : BaseEntity<TKey>

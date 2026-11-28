@@ -119,7 +119,7 @@ namespace School.Services.Services
             {
                 Id = media.Id,
                 FileName = media.FileName,
-                FilePath = media.FilePath,
+                FilePath = fullPath,
                 AltText = media.AltText,
                 Type = media.Type
             };
